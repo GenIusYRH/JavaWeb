@@ -1,0 +1,93 @@
+body {
+    border: 0px;
+    margin: 0;
+    background-color: silver;
+}
+div {
+    position: relative;
+    float: left;
+}
+
+#div_back {
+    width: 80%;
+    height: 100%;
+    margin-left: 10%;
+    background-color: beige;
+    border-radius: 25px;
+}
+
+#table_fruit tr,#table_fruit td,#table_fruit th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 16.6%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#table_fruit {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 10px;
+    margin-left: 10%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    color: dimgray;
+
+
+
+}
+
+.delImg {
+    width: 30px;
+    height: 30px;
+}
+
+
+.btn {
+    border: 1px solid lightgray;
+    width: 80px;
+    height: 24px;
+}
+
+#table_title {
+    font-size: 30px;
+    text-align: center;
+}
+
+#div_add {
+    margin-left: 10%;
+    width: 80%;
+    height: 30px;
+}
+
+#a_add {
+    color: dimgray;
+    position: relative;
+    margin-left: 10px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.a_href{
+    color: dimgray;
+    text-decoration-color: dimgray;
+    text-decoration-line: none;
+}
+
+#div_page {
+
+    margin-left: 10%;
+    width: 80%;
+    height: 30px;
+    display: inline;
+    text-align: center;
+}
+
+#from_search {
+
+    position: relative;
+    float: right;
+    color: dimgray;
+}

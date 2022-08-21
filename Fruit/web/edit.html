@@ -1,0 +1,43 @@
+<!--<!DOCTYPE html>-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <link rel="stylesheet" href="css/edit.css">
+</head>
+<body>
+    <div id="div_back">
+        <p id="table_title">编辑水果信息</p>
+        <form action="update" method="post">
+            <table id="table_fruit">
+
+                <tr>
+                    <th class="w20">名称</th>
+                    <td>
+                        <input type="hidden" th:value="${fruit.id}" name="id">
+                        <input type="text" th:value="${fruit.name}" name="name">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w20">单价</th>
+                    <td><input type="text" th:value="${fruit.price}" name="price"></td>
+                </tr>
+                    <th class="w20">数量</th>
+                    <td><input type="text" th:value="${fruit.count}" name="count"></td>
+                <tr>
+                    <th class="w20">备注</th>
+                    <td><input type="text" th:value="${fruit.remark}" name="remark"></td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <input class="btn" type="submit" name="submit" value="确定">
+                        <input class="btn" type="reset" name="reset" value="重置">
+                    </th>
+                </tr>
+            </table>
+        </form>
+
+
+    </div>
+</body>
+</html>

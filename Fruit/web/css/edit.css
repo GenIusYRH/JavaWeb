@@ -1,0 +1,57 @@
+body {
+    border: 0px;
+    margin: 0;
+    background-color: silver;
+}
+div {
+    position: relative;
+    float: left;
+}
+
+#div_back {
+    width: 80%;
+    height: 100%;
+    margin-left: 10%;
+    background-color: beige;
+    border-radius: 25px;
+}
+
+#table_fruit tr,#table_fruit td,#table_fruit th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+#table_fruit {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 60%;
+    margin-top: 10px;
+    margin-left: 20%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    color: dimgray;
+
+
+
+}
+
+.w20 {
+    width: 20%;
+}
+
+.delImg {
+    width: 30px;
+    height: 30px;
+}
+
+
+.btn {
+    border: 1px solid lightgray;
+    width: 80px;
+    height: 30px;
+}
+
+#table_title {
+    font-size: 30px;
+    text-align: center;
+}
