@@ -3,94 +3,33 @@ package servlet;
 import bean.Fruit;
 import connection.ConnectionFactor;
 import dao.FruitDAO;
-import dao.impl.FruitDAOImpl;
 import message.Page;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/fruit")
-public class FruitServlet extends  ViewBaseServlet{
+//@WebServlet("/FruitController")
+public class FruitController{
 
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if((Page) session.getAttribute("page") == null ) {
-            init(req,resp);
-            return ;
-        }
+    private FruitDAO fruitDAO = null;
 
-        String operation = req.getParameter("operation");
-        if(operation == null || "".equals(operation))
-            operation = "onload";
-        switch(operation) {
-            case "onload":
-                onload(req,resp);
-                break;
-            case "add":
-                add(req,resp);
-                break;
-            case "changPage":
-                changePage(req,resp);
-                break;
-            case "delete":
-                delete(req,resp);
-                break;
-            case "edit":
-                edit(req,resp);
-                break;
-            case "search":
-                search(req,resp);
-                break;
-            case "update":
-                update(req,resp);
-                break;
-            default:
-                throw new RuntimeException("operation is illegal !");
-        }
-
-    }
-
-    private void init(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("utf-8");
-        HttpSession session = req.getSession();
-        System.out.println("来到了init");
-        try {
-            Page page = new Page();
-            session.setAttribute("page",page);
-
-            req.getRequestDispatcher("fruit").forward(req,resp);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    private void onload(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String onload(HttpServletRequest req) {
 
         HttpSession session = req.getSession();
         Connection connection = null;
 
-
         try {
-
             connection = ConnectionFactor.getConnection();
             Page page = (Page) session.getAttribute("page");
 
-
-            FruitDAO fruitDAO = new FruitDAOImpl();
             List<Fruit> fruitList = fruitDAO.getOnePageFruit(connection,page);
             session.setAttribute("fruitList",fruitList);
 
-            super.processTemplate("Hello",req,resp);
+//            super.processTemplate("Hello",req,resp);
+            return "Hello";
 
 
         } catch (SQLException e) {
@@ -108,15 +47,10 @@ public class FruitServlet extends  ViewBaseServlet{
 
     }
 
-    private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String add(String name,String price,String count,String remark,HttpServletRequest req) {
 
-        req.setCharacterEncoding("utf-8");
         HttpSession session = req.getSession();
 
-        String name = req.getParameter("name");
-        String price = req.getParameter("price");
-        String count = req.getParameter("count");
-        String remark = req.getParameter("remark");
         Fruit fruit = new Fruit(1,name, Integer.parseInt(price), Integer.parseInt(count), remark);
 
 
@@ -125,10 +59,12 @@ public class FruitServlet extends  ViewBaseServlet{
         try {
 
             connection = ConnectionFactor.getConnection();
-            FruitDAO fruitDAO = new FruitDAOImpl();
+
             fruitDAO.addFruit(connection,fruit);
 
-            resp.sendRedirect("fruit");
+//            resp.sendRedirect("fruit.do");
+            return "redirect:fruit.do";
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -143,7 +79,7 @@ public class FruitServlet extends  ViewBaseServlet{
         }
     }
 
-    private void changePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String changePage(HttpServletRequest req) {
         String pageOpt = req.getParameter("pageOpt");
         HttpSession session = req.getSession();
         Page page = null;
@@ -168,25 +104,26 @@ public class FruitServlet extends  ViewBaseServlet{
                 }
             }
 
-            resp.sendRedirect("fruit");
-
+//            resp.sendRedirect("fruit.do");
+            return "redirect:fruit.do";
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String delete(String id,HttpServletRequest req){
         Connection connection = null;
 
         try {
             connection = ConnectionFactor.getConnection();
 
-            int id = Integer.parseInt(req.getParameter("id"));
-            FruitDAO fruitDAO = new FruitDAOImpl();
-            fruitDAO.delFruitById(connection,id);
 
-            resp.sendRedirect("fruit");
+            fruitDAO.delFruitById(connection,Integer.parseInt(id));
+
+//            resp.sendRedirect("fruit.do");
+            return "redirect:fruit.do";
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -204,23 +141,24 @@ public class FruitServlet extends  ViewBaseServlet{
 
     }
 
-    private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String edit(String id,HttpServletRequest req){
 
 
         Connection connection = null;
         try {
-            String id = req.getParameter("id");
             if(id != null) {
                 connection = ConnectionFactor.getConnection();
-                FruitDAO fruitDAO = new FruitDAOImpl();
+
                 Fruit fruit = fruitDAO.getFruitById(connection, Integer.parseInt(id));
 
                 HttpSession session = req.getSession();
                 req.setAttribute("fruit",fruit);
 
-                super.processTemplate("edit",req,resp);
+//                super.processTemplate("edit",req,resp);
+                return "edit";
 
             }
+            return null;
 
 
 
@@ -241,46 +179,35 @@ public class FruitServlet extends  ViewBaseServlet{
         }
     }
 
-    private void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("utf-8");
-        String keyword = req.getParameter("keyword");
+    private String search(String keyword,HttpServletRequest req) throws Exception {
+
         HttpSession session = req.getSession();
 
-        try {
-            Page page = (Page) session.getAttribute("page");
-            page.setKeyword(keyword);
-            page.first();
+        Page page = (Page) session.getAttribute("page");
+        page.setKeyword(keyword);
+        page.first();
 
+        return "redirect:fruit.do";
 
-            resp.sendRedirect("fruit");
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+//            resp.sendRedirect("fruit.do");
 
     }
 
-    private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private String update(String id,String name,String price,String count,String remark,HttpServletRequest req) {
 
-        req.setCharacterEncoding("utf-8");
+
         Connection connection = null;
 
         try {
 
             connection = ConnectionFactor.getConnection();
-            String id = req.getParameter("id");
-            String name = req.getParameter("name");
-            String price = req.getParameter("price");
-            String count = req.getParameter("count");
-            String remark = req.getParameter("remark");
             Fruit fruit = new Fruit(Integer.parseInt(id),name,Integer.parseInt(price), Integer.parseInt(count), remark);
-            FruitDAO fruitDAO = new FruitDAOImpl();
+
             fruitDAO.setFruitById(connection,fruit);
 
-            resp.sendRedirect("fruit");
 
+//            resp.sendRedirect("fruit.do");
+            return "redirect:fruit.do";
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -297,12 +224,90 @@ public class FruitServlet extends  ViewBaseServlet{
 
 
     }
-
-
-
 
 
 
 
 
 }
+
+//    @Override
+//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        req.setCharacterEncoding("utf-8");
+//        System.out.println("service");
+//        HttpSession session = req.getSession();
+//        if((Page) session.getAttribute("page") == null ) {
+//            Page page = null;
+//            try {
+//                page = new Page();
+//                session.setAttribute("page",page);
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        String operation = req.getParameter("operation");
+//        if(operation == null || "".equals(operation))
+//            operation = "onload";
+//
+//        Method[] declaredMethods = this.getClass().getDeclaredMethods();
+//        for(Method method : declaredMethods) {
+//            String methodName = method.getName();
+//            if(methodName.equals(operation)) {
+//                try {
+//                    method.invoke(this,req,resp);
+//                    return ;
+//                } catch (IllegalAccessException e) {
+//                    throw new RuntimeException(e);
+//                } catch (InvocationTargetException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }
+//        throw new RuntimeException("operation is illegal !");
+//
+
+//        switch(operation) {
+//            case "onload":
+//                onload(req,resp);
+//                break;
+//            case "add":
+//                add(req,resp);
+//                break;
+//            case "changPage":
+//                changePage(req,resp);
+//                break;
+//            case "delete":
+//                delete(req,resp);
+//                break;
+//            case "edit":
+//                edit(req,resp);
+//                break;
+//            case "search":
+//                search(req,resp);
+//                break;
+//            case "update":
+//                update(req,resp);
+//                break;
+//            default:
+//                throw new RuntimeException("operation is illegal !");
+//        }
+//
+
+
+//    }
+
+        //    private void init(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        req.setCharacterEncoding("utf-8");
+//        HttpSession session = req.getSession();
+//        System.out.println("来到了init");
+//        try {
+//            Page page = new Page();
+//            session.setAttribute("page",page);
+//
+//            req.getRequestDispatcher("fruit.do").forward(req,resp);
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }

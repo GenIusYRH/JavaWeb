@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/changePage")
+//@WebServlet("/changePage")
 public class ChangPageServlet extends ViewBaseServlet{
 
     @Override

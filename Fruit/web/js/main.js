@@ -129,12 +129,12 @@ function checkKeyIsLegal(e) {
 
 function delFruit(id) {
     if(confirm("确认删除？")) {
-        window.location.href = "delete?id=" + id;
+        window.location.href = "fruit.do?id=" + id + "&operation=delete";
     }
 
 }
 
 function changePage(pageOpt) {
-    window.location.href = "changePage?pageOpt=" + pageOpt;
+    window.location.href = "fruit.do?pageOpt=" + pageOpt + "&operation=changePage";
 }
 

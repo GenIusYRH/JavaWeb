@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/add")
+//@WebServlet("/add")
 public class AddServlet extends HttpServlet {
 
 

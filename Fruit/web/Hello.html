@@ -10,7 +10,8 @@
     <div id="div_back">
         <p id="table_title">欢迎来到水果库存管理系统</p>
         <div id="div_add">
-            <form id="from_search" action="search" method="post">请输入查询关键字
+            <form id="from_search" action="fruit.do" method="post">请输入查询关键字
+                <input type="hidden" name="operation" value="search">
                 <input type="text" name="keyword" th:value="${session.page.keyword}">
                 <input type="submit" class="btn" value="查询">
             </form>
@@ -29,7 +30,7 @@
                 <td colspan="6">对不起,没有数据</td>
             </tr>
             <tr th:unless="${#lists.isEmpty(session.fruitList)}" th:each="fruit : ${session.fruitList}">
-                <td><a class="a_href" th:text="${fruit.name}" th:href="@{|edit?id=${fruit.id}|}"></a></td>
+                <td><a class="a_href" th:text="${fruit.name}" th:href="@{|fruit.do?id=${fruit.id}&operation=edit|}"></a></td>
 <!--                <td><a th:text="${fruit.name}" th:href="@{edit(fid=${fruit.id})}"></a></td>-->
                 <td th:text="${fruit.price}">5</td>
                 <td th:text="${fruit.count}">20</td>

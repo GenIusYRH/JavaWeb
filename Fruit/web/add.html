@@ -8,7 +8,8 @@
 <body>
     <div id="div_back">
         <p id="table_title">添加水果</p>
-        <form action="add" method="post">
+        <form action="fruit.do" method="post">
+            <input type="hidden" name="operation" value="add">
             <table id="table_fruit">
                 <tr>
                     <th class="w20">名称</th>

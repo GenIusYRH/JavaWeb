@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,12 +22,12 @@ public class ConnectionFactor {
     private ConnectionFactor() {}
 
     public static Connection getConnection() throws IOException, SQLException {
-        FileInputStream fis = null;
+        InputStream fis = null;
         try {
             if(dataSource == null) {
                 synchronized(ConnectionFactor.class) {
                     if(dataSource == null) {
-                        fis = new FileInputStream("D:\\IntelliJ IDEA 2022.1\\code\\JavaWeb\\Fruit\\src\\main\\java\\connection\\fruit.properties");
+                        fis = ConnectionFactor.class.getClassLoader().getResourceAsStream("fruit.properties");
                         Properties properties = new Properties();
                         properties.load(fis);
 

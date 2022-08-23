@@ -51,7 +51,8 @@ public class Page {
         this.pageCount = pageCount;
     }
 
-    public int getPageNo() {
+    public int getPageNo() throws Exception {
+        flush();
         return pageNo;
     }
 

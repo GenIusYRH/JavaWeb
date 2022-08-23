@@ -6,6 +6,8 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Fruit" />
+          <element id="file-copy" path="$PROJECT_DIR$/Fruit/src/applicationContext.xml" />
+          <element id="file-copy" path="$PROJECT_DIR$/Fruit/src/fruit.properties" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="lib" />

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/delete")
+//@WebServlet("/delete")
 public class DeleteServlet extends ViewBaseServlet {
 
     @Override

@@ -16,7 +16,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/Onload")
+//@WebServlet("/Onload")
 public class OnloadServlet extends  ViewBaseServlet{
 
     @Override
